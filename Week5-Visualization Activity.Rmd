@@ -1,0 +1,50 @@
+---
+title: "Week5-Visualization Activity"
+author: "Angina Shrestha"
+date: "2024-06-20"
+output: html_document
+---
+
+```{r readDataRename, include=FALSE}
+install.packages("readr", repos = "http://cran.us.r-project.org")
+install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+install.packages("dplyr", repos = "http://cran.us.r-project.org")
+library(readr)
+library(tidyverse)
+library(dplyr)
+carEval <- read.csv("car_evaluation.csv", header = FALSE, sep = ",")
+renamed_CarEval <- carEval %>%
+  rename("buying" = "V1",
+         "maintenance" = "V2",
+         "doors" = "V3",
+         "person_fit" = "V4",
+         "luggage_boot" = "V5",
+         "safety" = "V6",
+         "car_acceptability" = "V7")
+```
+
+## Visualization 1  
+
+```{r visualization1, echo=FALSE}
+ggplot(renamed_CarEval, aes(x=car_acceptability, fill=safety)) + geom_bar(position = "dodge")
+```
+
+## Visualization 2
+   
+```{r visualization2, echo=FALSE}
+ggplot(renamed_CarEval, aes(x=car_acceptability, fill=maintenance)) + geom_bar(position = "dodge")
+```
+
+## Visualization 3 
+   
+```{r visualization3, echo=FALSE}
+renamed_CarEval %>%
+  count(car_acceptability, safety) %>%
+  ggplot(mapping = aes(x=car_acceptability, y=safety)) + geom_tile(mapping = aes(fill = n))
+```
+
+## Visualization 4   
+
+```{r visualization4, echo=FALSE}
+ggplot(data = renamed_CarEval) + geom_count(mapping = aes(x=car_acceptability, y=doors))
+```
